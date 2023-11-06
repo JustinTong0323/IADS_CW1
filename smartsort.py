@@ -1,4 +1,3 @@
-
 # File:    smartsort.py
 # Author:  John Longley
 # Date:    October 2023
@@ -13,7 +12,7 @@ from peekqueue import PeekQueue
 
 # Global variables
 
-comp = lambda x,y: x<=y   # comparison function used for sorting
+comp = lambda x, y: x <= y  # comparison function used for sorting
 
 insertSortThreshold = 10
 
@@ -24,28 +23,78 @@ sortedRunThreshold = 10
 
 # In-place Insert Sort on A[m],...,A[n-1]:
 
-#   insertSort(A,m,n)
+def insertSort(A, m, n):
+    for i in range(m + 1, n):
+        v = A[i]
+        j = i
+        while j > m and comp(v, A[j - 1]):
+            A[j] = A[j - 1]
+            j -= 1
+        A[j] = v
+
 
 # Merge C[m],...,C[p-1] and C[p],...,C[n-1] into D[m],...,D[n-1]
-
-#   merge(C,D,m,p,n)
+def merge(C,D,m,p,n):
+    i = m
+    j = p
+    k = m
+    while i < p and j < n:
+        if comp(C[i], C[j]):
+            D[k] = C[i]
+            i += 1
+        else:
+            D[k] = C[j]
+            j += 1
+        k += 1
+    while i < p:
+        D[k] = C[i]
+        i += 1
+        k += 1
+    while j < n:
+        D[k] = C[j]
+        j += 1
+        k += 1
 
 # Merge Sort A[m],...,A[n-1] using just B[m],...,B[n-1] as workspace,
 # deferring to Insert Sort if length <= insertSortThreshold
 
-#   greenMergeSort(A,B,m,n)
+def greenMergeSort(A,B,m,n):
+    if n - m <= insertSortThreshold:
+        insertSort(A, m, n)
+    else:
+        q = (m + n) // 2
+        p = (m + q) // 2
+        r = (q + n) // 2
+        greenMergeSort(A, B, m, p)
+        greenMergeSort(A, B, p, q)
+        greenMergeSort(A, B, q, r)
+        greenMergeSort(A, B, r, n)
+        merge(A, B, m, p, q)
+        merge(A, B, q, r, n)
+        merge(B, A, m, q, n)
+
+
 
 
 # Provided code:
 
 def greenMergeSortAll(A):
     B = [None] * len(A)
-    greenMergeSort(A,B,0,len(A))
+    greenMergeSort(A, B, 0, len(A))
     return A
 
+if __name__ == "__main__":
+    # generate a list of random numbers
+    import random
+    random.seed(123)
+    A = [random.randint(0, 100) for _ in range(100)]
+    print(A)
+    # sort it
+    A = greenMergeSortAll(A)
+    print(A)
 
 # TODO: Task 2. Detecting already sorted runs.
-        
+
 # Build and return queue of sorted runs of length >= sortedRunThreshold
 # Queue items are pairs (i,j) where A[i],...,A[j-1] is sorted
 
@@ -62,11 +111,11 @@ def greenMergeSortAll(A):
 
 # Provided code:
 
-def smartMergeSortAll(A):
-    B = [None] * len(A)
-    Q = allSortedRuns(A)
-    smartMergeSort(A,B,Q,0,len(A))
-    return A
+# def smartMergeSortAll(A):
+#     B = [None] * len(A)
+#     Q = allSortedRuns(A)
+#     smartMergeSort(A, B, Q, 0, len(A))
+#     return A
 
 
 # TODO: Task 3. Asymptotic analysis of smartMergeSortAll
@@ -92,13 +141,16 @@ def set_comp(f):
     global comp
     comp = f
 
+
 def set_insertSortThreshold(n):
     global insertSortThreshold
     insertSortThreshold = n
 
+
 def set_sortedRunThreshold(n):
     global sortedRunThreshold
     sortedRunThreshold = n
+
 
 def set_insertSort(f):
     global insertSort
