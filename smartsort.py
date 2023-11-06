@@ -12,7 +12,9 @@ from peekqueue import PeekQueue
 
 # Global variables
 
-comp = lambda x, y: x <= y  # comparison function used for sorting
+
+def comp(x, y): return x <= y  # comparison function used for sorting
+
 
 insertSortThreshold = 10
 
@@ -24,21 +26,26 @@ sortedRunThreshold = 10
 # In-place Insert Sort on A[m],...,A[n-1]:
 
 def insertSort(A, m, n):
+    # iterate over the sublist A[m+1:n]
     for i in range(m + 1, n):
+        # store the current element in a variable
         v = A[i]
         j = i
+        # shift elements to the right until the correct position for v is found
         while j > m and comp(v, A[j - 1]):
             A[j] = A[j - 1]
             j -= 1
+        # insert v into the correct position
         A[j] = v
 
 
 # Merge C[m],...,C[p-1] and C[p],...,C[n-1] into D[m],...,D[n-1]
-def merge(C,D,m,p,n):
+def merge(C, D, m, p, n):
     i = m
     j = p
     k = m
     while i < p and j < n:
+        # compare elements in the two subarrays
         if comp(C[i], C[j]):
             D[k] = C[i]
             i += 1
@@ -46,10 +53,12 @@ def merge(C,D,m,p,n):
             D[k] = C[j]
             j += 1
         k += 1
+    # copy remaining elements from the first subarray
     while i < p:
         D[k] = C[i]
         i += 1
         k += 1
+    # copy remaining elements from the second subarray
     while j < n:
         D[k] = C[j]
         j += 1
@@ -58,22 +67,27 @@ def merge(C,D,m,p,n):
 # Merge Sort A[m],...,A[n-1] using just B[m],...,B[n-1] as workspace,
 # deferring to Insert Sort if length <= insertSortThreshold
 
-def greenMergeSort(A,B,m,n):
+
+def greenMergeSort(A, B, m, n):
+    # If the length of the list is less than or equal to insertSortThreshold, use insertion sort
     if n - m <= insertSortThreshold:
         insertSort(A, m, n)
     else:
+        # Divide the list into four sublists
         q = (m + n) // 2
         p = (m + q) // 2
         r = (q + n) // 2
+
+        # Recursively sort the sublists
         greenMergeSort(A, B, m, p)
         greenMergeSort(A, B, p, q)
         greenMergeSort(A, B, q, r)
         greenMergeSort(A, B, r, n)
+
+        # Merge the sublists
         merge(A, B, m, p, q)
         merge(A, B, q, r, n)
         merge(B, A, m, q, n)
-
-
 
 
 # Provided code:
@@ -82,6 +96,7 @@ def greenMergeSortAll(A):
     B = [None] * len(A)
     greenMergeSort(A, B, 0, len(A))
     return A
+
 
 if __name__ == "__main__":
     # generate a list of random numbers
