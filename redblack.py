@@ -79,6 +79,7 @@ class RedBlackTree():
 
 # TODO: Task 1.
 
+
     def lookup(self, key):
         # return value associated with key, or None if no such key
         # (this is a wrapper for the recursive method)
@@ -99,6 +100,7 @@ class RedBlackTree():
 
 # TODO: Task 2.
 
+
     def plainInsert(self, key, value):
         # insert key-value pair into tree
         # (this is a wrapper for the recursive method)
@@ -116,34 +118,61 @@ class RedBlackTree():
 
         # If the key is less than the current node's key, go left
         elif key < x.key:
-            self.stack.append(Left)  # Add Left to the stack
+            self.stack.append(Left)
             # If there is no left child, create a new node and add it as the left child
             if x.left == None:
                 x.left = Node(key, value)
-                self.stack.append(x.left)  # Add the new node to the stack
+                self.stack.append(x.left)
             else:  # If there is a left child, recursively call plainInsert_ on it
                 self.plainInsert_(x.left, key, value)
 
         else:
-            self.stack.append(Right)  # Add Right to the stack
-            if x.right == None:  # If there is no right child, create a new node and add it as the right child
+            self.stack.append(Right)
+            # If there is no right child, create a new node and add it as the right child
+            if x.right == None:
                 x.right = Node(key, value)
-                self.stack.append(x.right)  # Add the new node to the stack
+                self.stack.append(x.right)
             else:  # If there is a right child, recursively call plainInsert_ on it
                 self.plainInsert_(x.right, key, value)
 
 
 # TODO: Task 3.
 
+
     def tryRedUncle(self):
-        pass
+        # If the stack is too short, return False
+        if len(self.stack) < 5:
+            return False
+
+        # Get the parent, grandparent, and uncle
+        me = self.stack[-1]
+        parent = self.stack[-3]
+        grandparent = self.stack[-5]
+        uncle = grandparent.getChild(opposite(self.stack[-4]))
+
+        # Check if red uncle case applies
+        if colourOf(me) == Red and colourOf(parent) == Red and colourOf(uncle) == Red:
+            # Flip the colours of the grandparent, parent, and uncle
+            grandparent.colour = Red
+            parent.colour = Black
+            uncle.colour = Black
+
+            # pop the three nodes from the stack
+            for i in range(4):
+                self.stack.pop()
+
+            return True
+
+        else:
+            # If the red uncle case does not apply, return False
+            return False
 
     def repeatRedUncle(self):
-        pass
+        while self.tryRedUncle():
+            pass
 
 
 # Provided code to support Task 4:
-
 
     def toNextBlackLevel(self, node):
         # inspect subtree down to the next level of blacks
@@ -176,7 +205,6 @@ class RedBlackTree():
 
 # TODO: Task 4.
 
-
     def endgame(self):
         pass
 
@@ -187,7 +215,6 @@ class RedBlackTree():
 # Provided code:
 
     # Printing tree contents
-
 
     def __str__(self, x):
         if x == None:
