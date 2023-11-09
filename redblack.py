@@ -78,7 +78,23 @@ class RedBlackTree():
 
 
 # TODO: Task 1.
-#   lookup(self,key)
+
+    def lookup(self, key):
+        # return value associated with key, or None if no such key
+        # (this is a wrapper for the recursive method)
+        return self.lookup_(self.root, key)
+
+    def lookup_(self, x, key):
+        # return value associated with key in subtree rooted at x,
+        # or None if no such key
+        if x == None:
+            return None
+        elif key == x.key:
+            return x.value
+        elif key < x.key:
+            return self.lookup_(x.left, key)
+        else:
+            return self.lookup_(x.right, key)
 
 
 # TODO: Task 2.
