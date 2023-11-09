@@ -100,29 +100,36 @@ class RedBlackTree():
 # TODO: Task 2.
 
     def plainInsert(self, key, value):
+        # insert key-value pair into tree
+        # (this is a wrapper for the recursive method)
         if self.root == None:
             self.root = Node(key, value)
         else:
             self.plainInsert_(self.root, key, value)
 
     def plainInsert_(self, x, key, value):
-        self.stack.append(x)
-        print(x.key, key < x.key)
+        self.stack.append(x)  # Add x to the stack
+
+        # If the key already exists, update the value
         if key == x.key:
             x.value = value
+
+        # If the key is less than the current node's key, go left
         elif key < x.key:
-            self.stack.append(Left)
+            self.stack.append(Left)  # Add Left to the stack
+            # If there is no left child, create a new node and add it as the left child
             if x.left == None:
                 x.left = Node(key, value)
-                self.stack.append(x.left)
-            else:
+                self.stack.append(x.left)  # Add the new node to the stack
+            else:  # If there is a left child, recursively call plainInsert_ on it
                 self.plainInsert_(x.left, key, value)
+
         else:
-            self.stack.append(Right)
-            if x.right == None:
+            self.stack.append(Right)  # Add Right to the stack
+            if x.right == None:  # If there is no right child, create a new node and add it as the right child
                 x.right = Node(key, value)
-                self.stack.append(x.right)
-            else:
+                self.stack.append(x.right)  # Add the new node to the stack
+            else:  # If there is a right child, recursively call plainInsert_ on it
                 self.plainInsert_(x.right, key, value)
 
 
@@ -168,10 +175,12 @@ class RedBlackTree():
 
 
 # TODO: Task 4.
+
+
     def endgame(self):
         pass
 
-    def insert(self,key,value):
+    def insert(self, key, value):
         pass
 
 
