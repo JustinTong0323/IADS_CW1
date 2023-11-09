@@ -192,19 +192,27 @@ if __name__ == "__main__":
 
 # TODO: Task 3. Asymptotic analysis of smartMergeSortAll
 
-# 1. Justification of O(n lg n) bound.
-#
-#
-#
-#
-# (continue as necessary)
+""" 
+1. Justification of O(n lg n) bound.
+For subarrays with a length less than or equal to `insertSortThreshold`,
+the algorithm uses insertion sort, which has a worst-case complexity of O(k^2) for each such subarray,
+where k is the length of the subarray. However, since k is constant and does not depend on n,
+the insertion sort does not affect the overall asymptotic complexity of the algorithm.
+And for the `allSortedRuns` function and the subsequent checks within smartMergeSort to detect whether
+a sublist is already sorted are linear operations with respect to the size of the sublist.
+Therefore, the recurrence relation for `smartMergeSortAll` can be expressed as: T(n) = 4T(n/4) + Theta(n)
+where the number of recursive calls is 4, subproblem factor is 4 and the time taken to merge the subproblems is Theta(n).
+So by the Master Theorem, e = log_4(4) = 1, k = 1 => e = k => T(n) = Theta(n^k lg n) = Theta(n lg n) => T(n) = O(n lg n)
 
-# 2. Runtime analysis for nearly-sorted inputs.
-#
-#
-#
-#
-# (continue as necessary)
+2. Runtime analysis for nearly-sorted inputs.
+For nearly-sorted inputs where at most one item is out of place,`smartMergeSortAll` has a runtime complexity dominated by
+the merge operations and thedetection of the unsorted element. The `allSortedRuns` will identify almost the entire list as sorted,
+except for the segment affected by the unsorted element, which incurs a logarithmic number of comparisons to locate.
+Once this element is found, as the list is nearly sorted, the `isWithinRun` function will typically return `True`,
+indicating that the majority of the list does not need to be sorted, so only a constant number of linear-time merge
+operations are required. Hence, the algorithm's performance is bound by O(n) for the merging and O(lg n) for locating the unsorted element.
+Asymptotically, the runtime simplifies to O(n).
+"""
 
 
 # Functions added for automarking purposes - please don't touch these!
