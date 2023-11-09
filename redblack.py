@@ -110,6 +110,7 @@ class RedBlackTree():
 
         if self.root == None:
             self.root = Node(key, value)
+            self.stack.append(self.root)
         else:
             self.plainInsert_(self.root, key, value)
 
