@@ -98,12 +98,41 @@ class RedBlackTree():
 
 
 # TODO: Task 2.
-#   plainInsert(self,key,value)
+
+    def plainInsert(self, key, value):
+        if self.root == None:
+            self.root = Node(key, value)
+        else:
+            self.plainInsert_(self.root, key, value)
+
+    def plainInsert_(self, x, key, value):
+        self.stack.append(x)
+        print(x.key, key < x.key)
+        if key == x.key:
+            x.value = value
+        elif key < x.key:
+            self.stack.append(Left)
+            if x.left == None:
+                x.left = Node(key, value)
+                self.stack.append(x.left)
+            else:
+                self.plainInsert_(x.left, key, value)
+        else:
+            self.stack.append(Right)
+            if x.right == None:
+                x.right = Node(key, value)
+                self.stack.append(x.right)
+            else:
+                self.plainInsert_(x.right, key, value)
 
 
 # TODO: Task 3.
-#   tryRedUncle(self)
-#   repeatRedUncle(self):
+
+    def tryRedUncle(self):
+        pass
+
+    def repeatRedUncle(self):
+        pass
 
 
 # Provided code to support Task 4:
@@ -139,8 +168,11 @@ class RedBlackTree():
 
 
 # TODO: Task 4.
-#   endgame(self)
-#   insert(self,key,value)
+    def endgame(self):
+        pass
+
+    def insert(self,key,value):
+        pass
 
 
 # Provided code:

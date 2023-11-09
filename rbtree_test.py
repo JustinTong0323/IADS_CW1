@@ -28,8 +28,10 @@ class TestRedBlackTree(unittest.TestCase):
         self.assertEqual(
             self.empty_tree.root.key, 5
         )  # Root should be the inserted node
-        self.assertEqual(self.empty_tree.root.value, "five")  # Value should be "five"
-        self.assertEqual(self.empty_tree.root.colour, Red)  # Colour should be Red
+        self.assertEqual(self.empty_tree.root.value,
+                         "five")  # Value should be "five"
+        self.assertEqual(self.empty_tree.root.colour,
+                         Red)  # Colour should be Red
 
     def test_insert_new_key(self):
         # Test inserting a new key-value pair
@@ -125,7 +127,8 @@ class TestRedUncleRule(unittest.TestCase):
         # Check that colors remain the same
         self.assertEqual(self.tree_without_red_uncle.root.colour, Black)
         self.assertEqual(self.tree_without_red_uncle.root.left.colour, Red)
-        self.assertEqual(self.tree_without_red_uncle.root.left.left.colour, Red)
+        self.assertEqual(
+            self.tree_without_red_uncle.root.left.left.colour, Red)
         # Check if the stack is not changed
         self.assertEqual(
             self.tree_without_red_uncle.showStack(),
@@ -197,7 +200,7 @@ class TestEndgame(unittest.TestCase):
         self.assertEqual(subtree_root.left.key, 3)
         self.assertEqual(subtree_root.right.key, 10)
         self.assertEqual(subtree_root.left.colour, Red)
-        self.assertEqual(subtree_root.right.colour, Red) 
+        self.assertEqual(subtree_root.right.colour, Red)
 
 
 class TestRedBlackTreeInsert(unittest.TestCase):
@@ -210,7 +213,8 @@ class TestRedBlackTreeInsert(unittest.TestCase):
         self.tree.insert(10, "ten")
         self.assertEqual(self.tree.lookup(10), "ten")
         self.assertEqual(self.tree.root.key, 10)
-        self.assertEqual(self.tree.root.colour, Black)  # The root must be black
+        # The root must be black
+        self.assertEqual(self.tree.root.colour, Black)
 
         # Test inserting a new node that goes to the left of the root
         self.tree.insert(5, "five")
@@ -240,7 +244,6 @@ class TestRedBlackTreeInsert(unittest.TestCase):
         # More detailed structure and colour checks can be added here according to the expected outcomes
 
 
-
 class TestRedBlackTreeProperties(unittest.TestCase):
 
     def setUp(self):
@@ -248,7 +251,8 @@ class TestRedBlackTreeProperties(unittest.TestCase):
 
     def test_insert_and_properties(self):
         # Insert a sequence of values that will result in a tree requiring fix-up
-        keys_to_insert = [(10, "ten"), (15, "fifteen"), (5, "five"), (1, "one"), (20, "twenty")]
+        keys_to_insert = [(10, "ten"), (15, "fifteen"),
+                          (5, "five"), (1, "one"), (20, "twenty")]
         for key, value in keys_to_insert:
             self.tree.insert(key, value)
             # After each insert, check if the tree still satisfies red-black properties
@@ -281,7 +285,8 @@ class TestRedBlackTreeProperties(unittest.TestCase):
 
         # Check black count on both left and right paths
         return self.check_red_black_properties(node.left, black_count, path_black_count) and \
-               self.check_red_black_properties(node.right, black_count, path_black_count)
+            self.check_red_black_properties(
+                node.right, black_count, path_black_count)
 
 
 if __name__ == "__main__":
