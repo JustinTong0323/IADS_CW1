@@ -210,10 +210,38 @@ class RedBlackTree():
 # TODO: Task 4.
 
     def endgame(self):
-        
+        # Case 1: Red pushed to root
+        if len(self.stack) < 3:
+            # Always set the root to black
+            if self.root is not None:
+                self.root.colour = Black
+            return
+
+        for i in range(2):
+            self.stack.pop()
+
+        # Case 2: Parent is Black
+        parent = self.stack.pop()
+        if colourOf(parent) == Black:
+            return
+
+        # Case 3: Parent is Red
+        self.stack.pop()
+        grandparent = self.stack.pop()
+        # Build a new balenced tree from the components
+        newTree = self.balancedTree(self.toNextBlackLevel(grandparent))
+        # Check if the grandparent is the root
+        if len(self.stack) < 3:
+            self.root = newTree
+        else:
+            grandparent_branch = self.stack.pop()
+            greatgrandparent = self.stack.pop()
+            greatgrandparent.setChild(grandparent_branch, newTree)
 
     def insert(self, key, value):
-        pass
+        self.plainInsert(key, value)
+        self.repeatRedUncle()
+        self.endgame()
 
 
 # Provided code:
