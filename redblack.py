@@ -104,6 +104,10 @@ class RedBlackTree():
     def plainInsert(self, key, value):
         # insert key-value pair into tree
         # (this is a wrapper for the recursive method)
+
+        # Clear the stack
+        self.stack = []
+
         if self.root == None:
             self.root = Node(key, value)
         else:
@@ -206,7 +210,7 @@ class RedBlackTree():
 # TODO: Task 4.
 
     def endgame(self):
-        pass
+        
 
     def insert(self, key, value):
         pass
