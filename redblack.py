@@ -1,4 +1,3 @@
-
 # File:     red_black.py
 # Author:   John Longley
 # Date:     October 2023
@@ -60,6 +59,7 @@ class Node():
     def __repr__(self):
         return str(self.key) + ':' + str(self.value) + ':' + colourStr(self.colour)
 
+
 # Use None for all trivial leaf nodes
 
 
@@ -76,9 +76,7 @@ class RedBlackTree():
         self.root = None
         self.stack = []
 
-
-# TODO: Task 1.
-
+    # TODO: Task 1.
 
     def lookup(self, key):
         # return value associated with key, or None if no such key
@@ -88,7 +86,7 @@ class RedBlackTree():
     def lookup_(self, x, key):
         # return value associated with key in subtree rooted at x,
         # or None if no such key
-        if x == None:
+        if x is None:
             return None
         elif key == x.key:
             return x.value
@@ -97,9 +95,7 @@ class RedBlackTree():
         else:
             return self.lookup_(x.right, key)
 
-
-# TODO: Task 2.
-
+    # TODO: Task 2.
 
     def plainInsert(self, key, value):
         # insert key-value pair into tree
@@ -108,7 +104,7 @@ class RedBlackTree():
         # Clear the stack
         self.stack = []
 
-        if self.root == None:
+        if self.root is None:
             self.root = Node(key, value)
             self.stack.append(self.root)
         else:
@@ -125,7 +121,7 @@ class RedBlackTree():
         elif key < x.key:
             self.stack.append(Left)
             # If there is no left child, create a new node and add it as the left child
-            if x.left == None:
+            if x.left is None:
                 x.left = Node(key, value)
                 self.stack.append(x.left)
             else:  # If there is a left child, recursively call plainInsert_ on it
@@ -134,15 +130,13 @@ class RedBlackTree():
         else:
             self.stack.append(Right)
             # If there is no right child, create a new node and add it as the right child
-            if x.right == None:
+            if x.right is None:
                 x.right = Node(key, value)
                 self.stack.append(x.right)
             else:  # If there is a right child, recursively call plainInsert_ on it
                 self.plainInsert_(x.right, key, value)
 
-
-# TODO: Task 3.
-
+    # TODO: Task 3.
 
     def tryRedUncle(self):
         # If the stack is too short, return False
@@ -176,8 +170,7 @@ class RedBlackTree():
         while self.tryRedUncle():
             pass
 
-
-# Provided code to support Task 4:
+    # Provided code to support Task 4:
 
     def toNextBlackLevel(self, node):
         # inspect subtree down to the next level of blacks
@@ -207,8 +200,7 @@ class RedBlackTree():
         b.right = c
         return b
 
-
-# TODO: Task 4.
+    # TODO: Task 4.
 
     def endgame(self):
         # Case 1: Red pushed to root
@@ -216,7 +208,10 @@ class RedBlackTree():
             # Always set the root to black
             if self.root is not None:
                 self.root.colour = Black
+                # newTree = self.balancedTree(self.toNextBlackLevel(self.root))
+                # self.root = newTree
             return
+        # TODO: need to pass test_endgame_black_with_four_black_descendants
 
         for i in range(2):
             self.stack.pop()
@@ -229,23 +224,22 @@ class RedBlackTree():
         # Case 3: Parent is Red
         self.stack.pop()
         grandparent = self.stack.pop()
-        # Build a new balenced tree from the components
+        # Build a new balanced tree from the components
         newTree = self.balancedTree(self.toNextBlackLevel(grandparent))
         # Check if the grandparent is the root
         if len(self.stack) < 3:
             self.root = newTree
         else:
             grandparent_branch = self.stack.pop()
-            greatgrandparent = self.stack.pop()
-            greatgrandparent.setChild(grandparent_branch, newTree)
+            greatGrandparent = self.stack.pop()
+            greatGrandparent.setChild(grandparent_branch, newTree)
 
     def insert(self, key, value):
         self.plainInsert(key, value)
         self.repeatRedUncle()
         self.endgame()
 
-
-# Provided code:
+    # Provided code:
 
     # Printing tree contents
 
@@ -274,6 +268,7 @@ class RedBlackTree():
 
     def keysLtoR(self):
         return self.keysLtoR_(self.root)
+
 
 # End of class RedBlackTree
 
